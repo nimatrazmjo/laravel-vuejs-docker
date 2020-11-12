@@ -30,6 +30,7 @@ List of technologies which are used in this project.
  - Copy `.env.example` to `.env`.
  - Build `docker-compose build`.
  - Run `docker-compose up -d`.
+ - Open favourite browser and type `http://localhost:5000`.
  - Generate key `docker exec bakend-end php artisan key:generate`
  - If you want to install a npm package then run `docker exec front-end npm install <Package_Name>`.
  - If you want to install compose package then run `docker exec back-end compose install <PACKAGE_NAME>`.
