@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  back-end:
+    build: .
+    command: npm run watch
+    container_name: back-end
+    ports:
+      - "5000:8000"
+    volumes:
+      - ./:/var/www/
+      - /var/www/vendor
+    depends_on:
+      - mysql
+    links: 
+      - mysql
+  mysql:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: "laravel"
+      # MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: 'laravel'
+      MYSQL_USER: 'rooot'
+      MYSQL_ROOT_PASSWORD: 'pass'
+    ports: 
+      - 3307:3306
+    volumes: 
+      - ./mysql/init.sql:/data/application/init.sql
+      - mysql_data:/var/lib/mysql
+  front-end:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.node
+    container_name: front-end
+    volumes:
+      - ./:/var/www/
+      - /var/www/node_modules
+    depends_on:
+      - 'back-end'
+volumes:
+  mysql_data:
