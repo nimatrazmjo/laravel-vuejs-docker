@@ -32,7 +32,7 @@ RUN composer install
 
 RUN php artisan key:generate --ansi
 
-COPY ./script/php_script.sh /tmp 
+COPY ./script/php_script.sh /tmp
 
 RUN chmod +x /tmp/php_script.sh
 

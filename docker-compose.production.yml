@@ -1,9 +1,13 @@
 version: "3.8"
 services:
   server:
-    build: .
-    command: npm run watch
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: base
     container_name: server
+    env_file:
+      - ./.env
     ports:
       - "${HTTP_PORT}:8000"
     volumes:
@@ -23,19 +27,9 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - ${MYSQL_PORT}:3306
+     - ${MYSQL_PORT}:3306
     volumes:
       - ./mysql/init.sql:/data/application/init.sql
-      - mysql_data5:/var/lib/mysql
-  client:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.node
-    container_name: client
-    volumes:
-      - ./:/var/www/
-      - /var/www/node_modules
-    depends_on:
-      - 'server'
+      - mysql_data:/var/lib/mysql
 volumes:
-  mysql_data5:
+  mysql_data:
