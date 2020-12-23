@@ -32,6 +32,8 @@ RUN composer install
 
 RUN php artisan key:generate --ansi
 
+RUN php artisan storage:link
+
 COPY ./script/php_script.sh /tmp
 
 RUN chmod +x /tmp/php_script.sh
