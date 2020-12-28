@@ -26,7 +26,7 @@ services:
       - ${MYSQL_PORT}:3306
     volumes:
       - ./mysql/init.sql:/data/application/init.sql
-      - mysql_data5:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
   client:
     build:
       context: .
@@ -38,4 +38,4 @@ services:
     depends_on:
       - "server"
 volumes:
-  mysql_data5:
+  mysql_data:

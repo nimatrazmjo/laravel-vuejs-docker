@@ -63,8 +63,6 @@ COPY --from=vuejs /app/public/js/ /var/www/html/public/js/
 COPY --from=vuejs /app/public/css/ /var/www/html/public/css/
 COPY --from=vuejs /app/mix-manifest.json /var/www/html/mix-manifest.json
 
-RUN pwd && ls -la
-
 RUN php artisan key:generate --ansi && php artisan storage:link && php artisan config:cache && php artisan route:cache
 
 
@@ -78,6 +76,13 @@ RUN chown -R www-data:www-data /var/www/html/storage \
 # create sqlite db structure
 RUN mkdir -p storage/app \
     && touch storage/app/db.sqlite
+
+RUN chown -R www-data:www-data \
+    /var/www/html \
+    /var/www/html/storage \
+    /var/www/html/bootstrap/cache
+
+RUN chmod -R 775 /var/www/html/storage
 
 VOLUME ["/var/www/html/storage", "/var/www/html/bootstrap/cache"]
 
