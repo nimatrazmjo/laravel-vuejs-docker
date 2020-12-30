@@ -63,7 +63,10 @@ COPY --from=vuejs /app/public/js/ /var/www/html/public/js/
 COPY --from=vuejs /app/public/css/ /var/www/html/public/css/
 COPY --from=vuejs /app/mix-manifest.json /var/www/html/mix-manifest.json
 
-RUN php artisan key:generate --ansi && php artisan storage:link && php artisan config:cache && php artisan route:cache
+
+
+
+RUN rm -rf /var/www/html/public/storage
 
 
 # these directories need to be writable by Apache
@@ -83,6 +86,9 @@ RUN chown -R www-data:www-data \
     /var/www/html/bootstrap/cache
 
 RUN chmod -R 775 /var/www/html/storage
+
+RUN php artisan key:generate --ansi \
+    && php artisan storage:link
 
 VOLUME ["/var/www/html/storage", "/var/www/html/bootstrap/cache"]
 
